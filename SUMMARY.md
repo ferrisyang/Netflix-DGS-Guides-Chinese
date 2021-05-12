@@ -1,6 +1,6 @@
 # Table of contents
 
-* [Netflix-DGS-Guides-Chinese](README.md)
+* [Netflix DGS 框架官方指南中文翻译版本](README.md)
 * [开始](01-getting-started.md)
 * [配置](02-configuration.md)
 * [Data fetching](03-data-fetching.md)

@@ -1,6 +1,4 @@
-# Netflix-DGS-Guides-Chinese
-
-Netflix DGS Framework Guides Chinese Version。
+# Netflix DGS 框架官方指南中文翻译版本
 
 Update Date: 2021-05-12
 
