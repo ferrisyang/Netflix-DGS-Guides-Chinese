@@ -147,13 +147,11 @@ Datafetcher 'Query.shows': 0ms
 
 Total execution time: 3ms
 
-
-
 ## 开箱即用的度量
 
-- 支持 vi the opt-in `graphql-dgs-spring-boot-micrometer` 模块.
-- 提供指定的 GraphQL 度量，比如 `gql.query`, `gql.error`, and `gql.dataLoader`。
--  [Micrometer](https://micrometer.io/) 提供支持，它支持很多后端。
+* 支持 vi the opt-in `graphql-dgs-spring-boot-micrometer` 模块.
+* 提供指定的 GraphQL 度量，比如 `gql.query`, `gql.error`, and `gql.dataLoader`。
+* [Micrometer](https://micrometer.io/) 提供支持，它支持很多后端。
 
 Gradle Groovy：
 
@@ -173,7 +171,7 @@ dependencies {
 
 Maven：
 
-```xml
+```markup
 <dependencies>
     <dependency>
         <groupId>com.netflix.graphql.dgs</groupId>
@@ -185,9 +183,7 @@ Maven：
 
 > ⚠️ 警告:
 >
-> 上面使用的版本只是一个示例。请通过访问  [Release page](https://github.com/Netflix/dgs-framework/releases) 来确认版本号。
-
-
+> 上面使用的版本只是一个示例。请通过访问 [Release page](https://github.com/Netflix/dgs-framework/releases) 来确认版本号。
 
 ### 查询计时器: gql.query
 
@@ -197,10 +193,10 @@ Maven：
 
 **Tags:**
 
-| Tag 名称          | 值                                          | 描述                                                         |
-| :---------------- | :------------------------------------------ | :----------------------------------------------------------- |
-| `outcome`         | `success` or `failure`                      | 操作结果，在 [ExecutionResult](https://github.com/graphql-java/graphql-java/blob/master/src/main/java/graphql/ExecutionResult.java) 中定义. |
-| `queryComplexity` | one in [5, 10, 20, 50, 100, 200, 500, 1000] | 在查询中 node 的总数                                         |
+| Tag 名称 | 值 | 描述 |
+| :--- | :--- | :--- |
+| `outcome` | `success` or `failure` | 操作结果，在 [ExecutionResult](https://github.com/graphql-java/graphql-java/blob/master/src/main/java/graphql/ExecutionResult.java) 中定义. |
+| `queryComplexity` | one in \[5, 10, 20, 50, 100, 200, 500, 1000\] | 在查询中 node 的总数 |
 
 queryComplexity 通常计算为 1 + childComplexity。查询复杂度对于计算查询的代价很有价值，因为它会根据查询的输入参数而变化。计算值表示为一个桶值，以减少度量的基数。
 
@@ -240,8 +236,6 @@ query {
             = 550 total nodes
 ```
 
-
-
 ### 错误计数器: gql.error
 
 捕获在执行查询或变更时遇到的 GraphQL 错误的数量。记住，一个 GraphQL 请求可能有多个错误。
@@ -250,13 +244,11 @@ query {
 
 **Tags:**
 
-| Tag 名称          | 描述                                                  |
-| :---------------- | :---------------------------------------------------- |
-| `gql.errorCode`   | GraphQL 错误码，比如 `VALIDATION`, `INTERNAL`, 等等。 |
-| `gql.path`        | 错误发生的结果路径。                                  |
-| `gql.errorDetail` | 如果有的话，这是包含了更多细节的可选项。              |
-
-
+| Tag 名称 | 描述 |
+| :--- | :--- |
+| `gql.errorCode` | GraphQL 错误码，比如 `VALIDATION`, `INTERNAL`, 等等。 |
+| `gql.path` | 错误发生的结果路径。 |
+| `gql.errorDetail` | 如果有的话，这是包含了更多细节的可选项。 |
 
 ### Data Loader 计时器: gql.dataLoader
 
@@ -266,12 +258,10 @@ query {
 
 **Tags:**
 
-| Tag 名称              | 描述                                              |
-| :-------------------- | :------------------------------------------------ |
-| `gql.loaderName`      | 一个 data loader 的名称，可以与实体类型名称一致。 |
-| `gql.loaderBatchSize` | 一次批处理中查询的数量                            |
-
-
+| Tag 名称 | 描述 |
+| :--- | :--- |
+| `gql.loaderName` | 一个 data loader 的名称，可以与实体类型名称一致。 |
+| `gql.loaderBatchSize` | 一次批处理中查询的数量 |
 
 ### Data Fetcher 计时器: gql.resolver
 
@@ -282,35 +272,29 @@ query {
 > 这个度量在以下情况不可用：
 >
 > * 数据通过一个 Batch Loader 处理的情况
-> * Datafetcher 是  [TrivialDataFetcher](https://github.com/graphql-java/graphql-java/blob/master/src/main/java/graphql/TrivialDataFetcher.java)。*trivial DataFetcher*  是将一个对象中的简单Map数据放到一个字段中的 datafetcher。这是直接定义在  `graphql-java`。
+> * Datafetcher 是  [TrivialDataFetcher](https://github.com/graphql-java/graphql-java/blob/master/src/main/java/graphql/TrivialDataFetcher.java)。_trivial DataFetcher_  是将一个对象中的简单Map数据放到一个字段中的 datafetcher。这是直接定义在  `graphql-java`。
 
 **名称:** `gql.resolver`
 
 **Tags:**
 
-| Tag 名称    | 描述                                                         |
-| :---------- | :----------------------------------------------------------- |
+| Tag 名称 | 描述 |
+| :--- | :--- |
 | `gql.field` | datafetcher 的名称。它可以用`@DgsData` 注解中的  `${parentType}.${field}`  格式指定. |
-
-
 
 #### 作为一个计时器的 Data Fetcher 定时器
 
-data fetcher，或 resolver，计时器也可以用作一个计数器。如果以这种方式使用，它将反映每个 data fetcher 的调用次数。如果你想知道哪些  data fetchers 经常被使用，这是很有用的。
-
-
+data fetcher，或 resolver，计时器也可以用作一个计数器。如果以这种方式使用，它将反映每个 data fetcher 的调用次数。如果你想知道哪些 data fetchers 经常被使用，这是很有用的。
 
 ### 进一步定制标签
 
-通过提供实现以下功能接口的 *bean*，您可以定制应用于上述指标的标记。
+通过提供实现以下功能接口的 _bean_，您可以定制应用于上述指标的标记。
 
-| 接口                         | 描述                                                         |
-| :--------------------------- | :----------------------------------------------------------- |
+| 接口 | 描述 |
+| :--- | :--- |
 | `DgsContextualTagCustomizer` | 用于添加常见的上下文标记。这些例子可以用来描述部署环境、应用程序概要文件、应用程序版本等 |
-| `DgsExecutionTagCustomizer`  | 用于添加指定查询[ExecutionResult](https://github.com/graphql-java/graphql-java/blob/master/src/main/java/graphql/ExecutionResult.java)。例子： [SimpleGqlOutcomeTagCustomizer](https://github.com/Netflix/dgs-framework/blob/master/graphql-dgs-spring-boot-micrometer/src/main/kotlin/com/netflix/graphql/dgs/metrics/micrometer/tagging/SimpleGqlOutcomeTagCustomizer.kt) |
+| `DgsExecutionTagCustomizer` | 用于添加指定查询[ExecutionResult](https://github.com/graphql-java/graphql-java/blob/master/src/main/java/graphql/ExecutionResult.java)。例子： [SimpleGqlOutcomeTagCustomizer](https://github.com/Netflix/dgs-framework/blob/master/graphql-dgs-spring-boot-micrometer/src/main/kotlin/com/netflix/graphql/dgs/metrics/micrometer/tagging/SimpleGqlOutcomeTagCustomizer.kt) |
 | `DgsFieldFetchTagCustomizer` | 用于添加指定 datafetcher 执行方法。例子：[SimpleGqlOutcomeTagCustomizer](https://github.com/Netflix/dgs-framework/blob/master/graphql-dgs-spring-boot-micrometer/src/main/kotlin/com/netflix/graphql/dgs/metrics/micrometer/tagging/SimpleGqlOutcomeTagCustomizer.kt) |
-
-
 
 ### 配置
 

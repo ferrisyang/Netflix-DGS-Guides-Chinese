@@ -1,18 +1,14 @@
 # 开始
 
-
-
 ## 创建一个新的 Spring Boot 应用
 
-DGS 框架建立在 Spring Boot 之上，所以如果你没有一个 Spring Boot 应用的话，需要创建一个新的来开始。Spring Initializr 是一个简单的开始方式。你可以利用 Gradle 或者 Maven，Java 8 版本以上或者Kotlin。我们建议使用 Gradle，因为我们在Gradle上已经有了一个很酷的 [code generation plugin](06-Code Generation.md)。
+DGS 框架建立在 Spring Boot 之上，所以如果你没有一个 Spring Boot 应用的话，需要创建一个新的来开始。Spring Initializr 是一个简单的开始方式。你可以利用 Gradle 或者 Maven，Java 8 版本以上或者Kotlin。我们建议使用 Gradle，因为我们在Gradle上已经有了一个很酷的 [code generation plugin](06-code-generation.md)。
 
 只依赖 Spring Web。
 
-![initializr](pics/initializr.png)
+![initializr](.gitbook/assets/initializr.png)
 
 从IDE（推荐使用 Intellij）中打开这个项目。
-
-
 
 ## 添加 DGS 框架依赖
 
@@ -44,7 +40,7 @@ dependencies {
 
 Maven：
 
-```xml
+```markup
 <dependency>
     <groupId>com.netflix.graphql.dgs</groupId>
     <artifactId>graphql-dgs-spring-boot-starter</artifactId>
@@ -53,13 +49,11 @@ Maven：
 </dependency>
 ```
 
-> 注:  DGS 框架需要 Kotlin 1.4，并且不能工作在 Kotlin 1.3上，Spring Boot 的旧版本可能用的是 Kotlin 1.3.
-
-
+> 注: DGS 框架需要 Kotlin 1.4，并且不能工作在 Kotlin 1.3上，Spring Boot 的旧版本可能用的是 Kotlin 1.3.
 
 ## 创建一个 Schema
 
-首先从 Schema 开始开发是 DGS 框架的设计理念。框架将会从 `src/main/resources/schema`  文件夹中读取所有的 schema 文件。请创建一个 schema 文件 `src/main/resources/schema/schema.graphqls`。
+首先从 Schema 开始开发是 DGS 框架的设计理念。框架将会从 `src/main/resources/schema` 文件夹中读取所有的 schema 文件。请创建一个 schema 文件 `src/main/resources/schema/schema.graphqls`。
 
 ```scheme
 type Query {
@@ -74,11 +68,9 @@ type Show {
 
 这个 Schema 允许查询 shows 的列表，并可以通过 title 进行筛选。
 
-
-
 ## 实现一个 Data Fetcher
 
-Data fetcher 负责返回一个查询的数据。创建两个新的 class `example.ShowsDataFetcher` 和 `Show` 以及添加下面的代码。注意，我们有一个 [Codegen plugin](06-Code Generation.md) 可以自动生成代码，但是在本指导里，我们手写这些 class。
+Data fetcher 负责返回一个查询的数据。创建两个新的 class `example.ShowsDataFetcher` 和 `Show` 以及添加下面的代码。注意，我们有一个 [Codegen plugin](06-code-generation.md) 可以自动生成代码，但是在本指导里，我们手写这些 class。
 
 Java：
 
@@ -150,8 +142,6 @@ class ShowsDataFetcher {
 
 这就是需要的所有代码了，现在应用可以测试了！
 
-
-
 ## 通过 GraphiQL 测试应用
 
 启动应用并打开浏览器到 `http://localhost:8080/graphiql`。GraphiQL 是一个集成在 DGS 框架中开箱即用的查询编辑器。请写如下的查询，并测试结果。
@@ -169,15 +159,13 @@ class ShowsDataFetcher {
 
 GraphiQL 编辑器只是个图形界面，在你的应用服务中使用 `/graphql` 这个地址。你现在可以通过这个图形界面来很好的连接后端服务，例如可以使用 [React and the Apollo Client](https://www.apollographql.com/docs/react/)。
 
-
-
 ## 下一步
 
 现在你已经运行了第一个 GraphQL 服务，我们建议通过以下的步骤来在后面进行改进:
 
-- 使用 [Use the DGS Platform BOM](10-Using the Platform BOM.md)，组织 DGS 框架的依赖。
-- 学习更多的 [datafetchers](03-Data fetching.md)
-- 使用 [Gradle CodeGen plugin](06-Code Generation.md)，为你自动生成数据类型。
-- 在 JUnit 中写 [query tests](04-Testing.md)
-- 查看 [example projects](https://netflix.github.io/dgs/examples)
+* 使用 [Use the DGS Platform BOM](advanced/10-using-the-platform-bom.md)，组织 DGS 框架的依赖。
+* 学习更多的 [datafetchers](03-data-fetching.md)
+* 使用 [Gradle CodeGen plugin](06-code-generation.md)，为你自动生成数据类型。
+* 在 JUnit 中写 [query tests](04-testing.md)
+* 查看 [example projects](https://netflix.github.io/dgs/examples)
 

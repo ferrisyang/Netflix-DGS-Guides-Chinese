@@ -1,8 +1,6 @@
 # 动态 schemas
 
-我们强烈建议主要使用以 schema 为先的开发模式。大多数 DGSs 都有一个 schema 文件，并使用声明的，基于注解的编程模型去创建 datafetcher。这就是说，在某些情况下，从另一个 source （可能动态的）生成 schema 的场景是必须的。 
-
-
+我们强烈建议主要使用以 schema 为先的开发模式。大多数 DGSs 都有一个 schema 文件，并使用声明的，基于注解的编程模型去创建 datafetcher。这就是说，在某些情况下，从另一个 source （可能动态的）生成 schema 的场景是必须的。
 
 ## 从 Code 创建一个 schema
 
@@ -34,8 +32,6 @@ public class DynamicTypeDefinitions {
 
 这个 `TypeDefinitionRegistry` 在 `Query` 对象类型上创建了一个 `randomNumber` 字段。
 
-
-
 ## 以编程方式创建 datafetchers
 
 如果你正在动态的创建 schema elements，很可能需要动态的创建 datafetcher。您可以使用 `@DgsCodeRegistry` 注解来以编程的方式添加 datafetcher。带注解的 `@DgsCodeRegistry` 方法有两个参数：
@@ -58,8 +54,6 @@ FieldCoordinates coordinates = FieldCoordinates.coordinates("Query", "randomNumb
     }
 }
 ```
-
-
 
 ## 在运行时更改 schemas
 

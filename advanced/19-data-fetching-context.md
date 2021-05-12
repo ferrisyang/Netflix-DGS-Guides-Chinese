@@ -1,6 +1,6 @@
 # Data Fetching Context
 
-在 [GraphQL] Java 中的每个 datafetcher 都有一个 context（上下文）。一个 datafetcher 通过调用  [`DataFetchingEnvironment.getContext()`](https://javadoc.io/doc/com.graphql-java/graphql-java/12.0/graphql/schema/DataFetchingEnvironment.html#getContext--) 来获得它的 context。 这是将 Request context 传递给 datafetcher 和 dataloader 的一种常见机制。DGS 框架有自己的  [`DgsContext`](https://github.com/Netflix/dgs-framework/blob/master/graphql-dgs/src/main/kotlin/com/netflix/graphql/dgs/context/DgsContext.kt) 实现，它用于日志检测以及其他用途。它的设计方式是，您可以使用自己的自定义 context 对其进行扩展。
+在 \[GraphQL\] Java 中的每个 datafetcher 都有一个 context（上下文）。一个 datafetcher 通过调用 [`DataFetchingEnvironment.getContext()`](https://javadoc.io/doc/com.graphql-java/graphql-java/12.0/graphql/schema/DataFetchingEnvironment.html#getContext--) 来获得它的 context。 这是将 Request context 传递给 datafetcher 和 dataloader 的一种常见机制。DGS 框架有自己的 [`DgsContext`](https://github.com/Netflix/dgs-framework/blob/master/graphql-dgs/src/main/kotlin/com/netflix/graphql/dgs/context/DgsContext.kt) 实现，它用于日志检测以及其他用途。它的设计方式是，您可以使用自己的自定义 context 对其进行扩展。
 
 为了创建一个自定义的 context，实现 `DgsCustomContextBuilder` 类型的 Spring Bean。撰写 `build()` 方法，以便它创建一个表示自定义 Context 对象的类型实例：
 

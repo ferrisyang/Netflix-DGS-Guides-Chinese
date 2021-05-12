@@ -32,8 +32,6 @@ interface ShowsService {
 
 这种情况下，你可能需要两个 datafetchers，一个为 shows，另一个为 reviews。这里有实现 datafetcher 的不同选项，每个 datafetcher 都有根据场景的 pros 和 cons。我们将讨论不同的场景和选项。
 
-
-
 ## 简单场景 - 使用 getSource
 
 在例子中的 Schema，`Show` 类型中有 `showId`。这样可以很容易的在另一个 datafetcher 中加载 `reviews`。`DataFetcherEnvironment` 有一个 `getSource()` 方法可以返回父加载的数据。
@@ -48,12 +46,10 @@ List<Show> shows() {
 List<Review> reviews(DgsDataFetchingEnvironment dfe) {
   Show show = dfe.getSource();
   return showsService.getReviewsForShow(show.getShowId());
-} 
+}
 ```
 
 这是最简单和最普遍的场景，但只可以使用在 `showid` 字段在 `Show` 类型中可用的情况。
-
-
 
 ## 没有 showId - 使用一个内部类型
 
@@ -61,7 +57,7 @@ List<Review> reviews(DgsDataFetchingEnvironment dfe) {
 
 如果我们从 schema 中删除 `showId` 并且使用代码生成器，那么生成出来的 `Show` 类将不会拥有 `showId` 字段。没有 `showId` 字段将会让加载 reviews 变得有一些复杂，因为不能通过使用 `getSource()` 从 `Show` 中获得 `showId`。
 
-`getShowsForService(int showId)` 方法表明内部（可能在 datastore 里），一个 show 会有一个 id。在这样的场景下，对比去暴露ID，我们可能有一个对 `Show` 不同的内部实现。上面提到的例子中，我们管这样被 `ShowService` 返回的类型，叫  `InternalShow` 类型。
+`getShowsForService(int showId)` 方法表明内部（可能在 datastore 里），一个 show 会有一个 id。在这样的场景下，对比去暴露ID，我们可能有一个对 `Show` 不同的内部实现。上面提到的例子中，我们管这样被 `ShowService` 返回的类型，叫 `InternalShow` 类型。
 
 ```java
 interface ShowsService {
@@ -120,8 +116,6 @@ List<Show> shows() {
 
 如说，这个额外的字段并不会影响发给客户端的响应。
 
-
-
 ## 没有 showId - 使用 local context
 
 当 schema 类型和内部类型几乎一样的时候，使用包装类将会很好的工作。另一种方法是使用 “local context”。一个 datafetcher 可以返回一个 `DataFetcherResult<T>`，它包括了 `data`，`errors` 和 `localContext`。其中 `data` 和 `errors` 字段是从 datafetcher 中正常返回的数据和错误信息。而 `localContext` 字段则可以包括任何你想要传递给子 datafetcher 的数据。在子 datafetcher 中，可以通过 `DataFetchingEnvironment` 来获得 `localContext` ，如果不被覆写的话，并且可以继续向下一级 datafetcher 传递。
@@ -167,8 +161,6 @@ public CompletableFuture<List<Review>> reviews(DgsDataFetchingEnvironment dfe) {
 ```
 
 这方案的一个好处就是，对比 `getSource` 来看，`localContext` 可以向下一级的 datafetcher 传递。
-
-
 
 ## 预加载
 

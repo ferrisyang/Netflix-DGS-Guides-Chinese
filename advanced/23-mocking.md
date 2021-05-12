@@ -7,9 +7,7 @@
 
 可以提出这样一个参数，即这种 mock data 类型应该存在于 UI 代码中。毕竟是为了他们的测试。然而，通过将其拉入 DGS，数据的所有者可以提供可供许多团队使用的测试数据。这两种情况并不相互排斥。
 
-
-
-## [GraphQL] Mocking
+## \[GraphQL\] Mocking
 
 在 DGS 框架中的 library 支持：
 
@@ -18,13 +16,11 @@
 
 这个 library 是模块化的，因此您可以将其用于各种工作流和用例。
 
-Mock 框架已经是 DGS 框架的一部分。您所需要提供的只是一个或多个 `MockProvider` 实现。`MockProvider` 是一个带有 `Map<String, Object> provide()` 方法的接口。`Map` 中的每个 `key` 都是[GraphQL] schema 中的一个字段，可以有好几层。`Map` 中的 `value` 是您希望为此键返回的任何 mock data。
-
-
+Mock 框架已经是 DGS 框架的一部分。您所需要提供的只是一个或多个 `MockProvider` 实现。`MockProvider` 是一个带有 `Map<String, Object> provide()` 方法的接口。`Map` 中的每个 `key` 都是\[GraphQL\] schema 中的一个字段，可以有好几层。`Map` 中的 `value` 是您希望为此键返回的任何 mock data。
 
 ### Example
 
-创建一个 `MockProvider` ，为你在 [getting started tutorial](01-Getting Started.md) 中创建的 `hello` 字段提供 Mock 数据。
+创建一个 `MockProvider` ，为你在 [getting started tutorial](../01-getting-started.md) 中创建的 `hello` 字段提供 Mock 数据。
 
 ```java
 @Component
