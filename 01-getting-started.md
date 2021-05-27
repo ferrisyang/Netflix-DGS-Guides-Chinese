@@ -51,7 +51,26 @@ Maven：
 </dependency>
 ```
 
+
+
 > 注: DGS 框架需要 Kotlin 1.4，并且不能工作在 Kotlin 1.3上，Spring Boot 的旧版本可能用的是 Kotlin 1.3.
+
+>  重要：
+>
+> 如果你使用的是 [Spring Boot Gradle Plugin 2.3](https://docs.spring.io/spring-boot/docs/2.3.10.RELEASE/gradle-plugin/reference/html/)，你必须明确说明Kotlin版本。**这个插件将降低传递1.4 Kotlin版本到1.3**。你可以通过Gradle的_extensions_来显式设置它，如下所示:
+>
+> Gradle：
+>
+> ```groovy
+> ext['slf4j.version'] = '1.4.31'
+> ```
+>
+> Gradle Kotlin：
+>
+> ```kotlin
+> extra["kotlin.version"] = "1.4.31"
+
+
 
 ## 创建一个 Schema
 
