@@ -10,11 +10,11 @@ DGS 框架建立在 Spring Boot 之上，所以如果你没有一个 Spring Boot
 
 从IDE（推荐使用 Intellij）中打开这个项目。
 
+
+
 ## 添加 DGS 框架依赖
 
 在你的 Gradle 或者 Maven 配置文件中，添加 `com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter` 依赖，dgs 版本：
-
-
 
 Gradle：
 
