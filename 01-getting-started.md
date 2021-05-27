@@ -12,42 +12,43 @@ DGS 框架建立在 Spring Boot 之上，所以如果你没有一个 Spring Boot
 
 ## 添加 DGS 框架依赖
 
-在你的 Gradle 或者 Maven 配置文件中，添加 `com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter` 依赖。
+在你的 Gradle 或者 Maven 配置文件中，添加 `com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter` 依赖，dgs 版本：
 
-Gradle：
 
-```groovy
-repositories {
-    mavenCentral()
-}
+=== "Gradle"
+    ```groovy
+    repositories {
+        mavenCentral()
+    }
 
-dependencies {
-    implementation "com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter:latest.release"
-}
-```
+    dependencies {
+        implementation "com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter:latest.release"
+    }
+    ```
+=== "Gradle Kotlin"
+    ```kotlin
+    repositories {
+        mavenCentral()
+    }
 
-Gradle Kotlin：
+    dependencies {
+        implementation("com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter:latest.release")
+    }
+    ```
+=== "Maven"
+    ```xml
+    <dependency>
+        <groupId>com.netflix.graphql.dgs</groupId>
+        <artifactId>graphql-dgs-spring-boot-starter</artifactId>
+        <!-- Make sure to set the latest framework version! -->
+        <version>${dgs.framework.version}</version>
+    </dependency>
+    ```
 
-```kotlin
-repositories {
-    mavenCentral()
-}
+!!! caution
+    The DGS Framework requires Kotlin 1.4, and does not work with Kotlin 1.3. Older Spring Boot versions may bring in Kotlin 1.3.
 
-dependencies {
-    implementation("com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter:latest.release")
-}
-```
 
-Maven：
-
-```markup
-<dependency>
-    <groupId>com.netflix.graphql.dgs</groupId>
-    <artifactId>graphql-dgs-spring-boot-starter</artifactId>
-    <!-- Make sure to set the latest framework version! -->
-    <version>${dgs.framework.version}</version>
-</dependency>
-```
 
 > 注: DGS 框架需要 Kotlin 1.4，并且不能工作在 Kotlin 1.3上，Spring Boot 的旧版本可能用的是 Kotlin 1.3.
 
