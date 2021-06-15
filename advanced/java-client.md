@@ -9,7 +9,7 @@ DGS 框架提供一个 GraphQL 客户端，它可以用于从一个 GraphQL endp
 
 ## HTTP 客户端包装
 
-GraphQL 客户端包装了任何 HTTP 客户端和提供了简单的 GraphQL 响应解析。客户端用于连接各种 GraphQL endpoint（即使不是使用 DGS 框架实现的），但提供了额外的方便用于解析 Gateway 和 DGS 响应。包括对 [Errors Spec](../08-error-handling.md) 的支持。
+GraphQL 客户端包装了任何 HTTP 客户端和提供了简单的 GraphQL 响应解析。客户端用于连接各种 GraphQL endpoint（即使不是使用 DGS 框架实现的），但提供了额外的方便用于解析 Gateway 和 DGS 响应。包括对 [Errors Spec](../error-handling.md) 的支持。
 
 使用这个客户端，需要创建一个 `DefaultGraphQLClient` 实例。
 
@@ -92,9 +92,9 @@ public List<TicksConnection> getData() {
 
 ### Errors
 
-GraphQLClient 不仅会检查 HTTP 级别的错误（基于 response 状态码），而且也会检查在 GraphQL response 中的 `errors` 块。GraphQLClient 兼容使用在 Gateway 和 DGS 中的 [Errors Spec](../08-error-handling.md) ，并且比较容易抽取像 ErrorType 的错误信息。
+GraphQLClient 不仅会检查 HTTP 级别的错误（基于 response 状态码），而且也会检查在 GraphQL response 中的 `errors` 块。GraphQLClient 兼容使用在 Gateway 和 DGS 中的 [Errors Spec](../error-handling.md) ，并且比较容易抽取像 ErrorType 的错误信息。
 
-例如，下面 GraphQL response，GraphQLClient 让你更容易获取 ErrorType 和 ErrorDetail 字段。主要 `ErrorType` 是一个被 [Errors Spec](../08-error-handling.md) 所指定的枚举。
+例如，下面 GraphQL response，GraphQLClient 让你更容易获取 ErrorType 和 ErrorDetail 字段。主要 `ErrorType` 是一个被 [Errors Spec](../error-handling.md) 所指定的枚举。
 
 ```javascript
 {
@@ -126,7 +126,7 @@ assertThat(graphQLResponse.errors.get(0).extensions.errorDetail).isEqualTo("FIEL
 
 基于一个 GraphQL schema，可以为 Java/Kotlin 生成出来一个类型安全的 query API。生成的 API 是一个规划好字段的（字段选择器），可以让你构建一个 GraphQL 请求的 builder 风格的 API。因为在 schema 有变化的时候代码被重新生成，这将会有利于在查询的时候抓取错误。因为 Java 不支持多行 String（当前为止）它也会为指定的请求赋予更多的可读方式。
 
-如果你已经有一个 DGS，并且想要为这个 DGS 生成一个客户端（例如：为了测试目的）这个客户端生成仅仅是在 [Codegen configuration](../06-code-generation.md) 中的一个额外属性。请设置以下内容在你的 `build.gradle`。
+如果你已经有一个 DGS，并且想要为这个 DGS 生成一个客户端（例如：为了测试目的）这个客户端生成仅仅是在 [Codegen configuration](../generating-code-from-schema.md) 中的一个额外属性。请设置以下内容在你的 `build.gradle`。
 
 ```groovy
 buildscript {

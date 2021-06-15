@@ -36,7 +36,7 @@ Maven：
 </dependency>
 ```
 
-用以下的内容创建测试类，用来测试来自 [getting started](01-getting-started.md) 的 `ShowsDatafetcher`。
+用以下的内容创建测试类，用来测试来自 [getting started](getting-started.md) 的 `ShowsDatafetcher`。
 
 Java：
 
@@ -109,9 +109,9 @@ class ShowsDataFetcherTest {
 
 ## 为测试创建 GraphQL Queries
 
-之前的例子中，我们手写了查询字符串。这对于很小很直接的查询是足够简洁的。然而，构造一个长查询字符串是非常让人厌烦的，尤其是在没有多行字符串支持的 Java 中。正因为此，我们可以使用 [GraphQLQueryRequest](advanced/13-java-graphql-client.md) 与生成用于构建请求所需要的类的 [code generation](06-code-generation.md) 插件组合去创建一个 GraphQL request。这将是一个方便且类型安全的构建查询的方式。
+之前的例子中，我们手写了查询字符串。这对于很小很直接的查询是足够简洁的。然而，构造一个长查询字符串是非常让人厌烦的，尤其是在没有多行字符串支持的 Java 中。正因为此，我们可以使用 [GraphQLQueryRequest](advanced/java-client.md) 与生成用于构建请求所需要的类的 [code generation](generating-code-from-schema.md) 插件组合去创建一个 GraphQL request。这将是一个方便且类型安全的构建查询的方式。
 
-请按照 [here](advanced/13-java-graphql-client.md#type-safe-query-api) 的指导搭建代码生成器，用于生成创建查询所必须的类。
+请按照 [here](advanced/java-client.md#type-safe-query-api) 的指导搭建代码生成器，用于生成创建查询所必须的类。
 
 现在，我们可以使用 `GraphQLQueryRequest` 去创建查询并且使用 `GraphQLResponse` 来抽取响应数据。
 
@@ -146,7 +146,7 @@ fun showsWithQueryApi() {
 }
 ```
 
-作为 [graphql-client module](advanced/13-java-graphql-client.md) 一部分的 `GraphQLQueryRequest` 已经可以用于创建查询字符串，并且可以分别包装在响应中。你可以参考 GraphQLClient JavaDoc 获取更多支持方法的细节。
+作为 [graphql-client module](advanced/java-client.md) 一部分的 `GraphQLQueryRequest` 已经可以用于创建查询字符串，并且可以分别包装在响应中。你可以参考 GraphQLClient JavaDoc 获取更多支持方法的细节。
 
 ## 在测试中 Mocking 外部服务调用
 

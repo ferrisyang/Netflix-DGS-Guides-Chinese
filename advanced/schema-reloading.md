@@ -10,5 +10,5 @@ DGS 框架能够很好的与一些工具配合使用，比如 JRebel。在巨大
 
 1. 设置  `dgs.reload`  配置属性为 `true`  （例如：在 `application.yml`）
 2. 启用 `laptop` 文档
-3. 当重载的时候，完全控制实现你自己的 `ReloadIndicator` bean。当在 [dynamic schemas](21-dynamic-schemas.md) 的情形下，这很有用。
+3. 当重载的时候，完全控制实现你自己的 `ReloadIndicator` bean。当在 [dynamic schemas](dynamic-schemas.md) 的情形下，这很有用。
 

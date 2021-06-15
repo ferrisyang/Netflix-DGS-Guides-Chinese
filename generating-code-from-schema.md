@@ -95,7 +95,7 @@ generateJava{
 
 ## 生成客户端 API
 
-代码生成器也可以创建客户端 API 类。你可以使用这些类，从一个 GraphQL 端点使用 Java 或者在 JUnit 中使用 `QueryExecutor` 来查询数据。这个 Java GraphQL 客户端对 server-to-server 之间的通信来说，是很有用的。一个 GraphQL Java 客户端作为框架的一部分 [available](advanced/13-java-graphql-client.md) 。
+代码生成器也可以创建客户端 API 类。你可以使用这些类，从一个 GraphQL 端点使用 Java 或者在 JUnit 中使用 `QueryExecutor` 来查询数据。这个 Java GraphQL 客户端对 server-to-server 之间的通信来说，是很有用的。一个 GraphQL Java 客户端作为框架的一部分 [available](advanced/java-client.md) 。
 
 代码生成器为每个 Query 和 Mutation 字段创建一个 `field-nameGraphQLQuery`。`*GraphQLQuery` 查询类包含每个参数字段。代码生成插件为 Query 或者 Mutation 返回的每个类型创建一个 `*ProjectionRoot`。一个 Projection 是一个指定了有哪些字段需要返回的 Builder 类。
 
@@ -164,7 +164,7 @@ type TickEdge {
 
 ### 为外部服务生成 Query API
 
-像上面那样生成一个 Query API，对测试你自己 DGS 服务非常有用。当与另一个 GraphQL 服务进行交互的时候，你的代码作为一个客户端，统一的类型 API 也同样很有用。这是使用 [DGS Client](advanced/13-java-graphql-client.md) 的典型用法。
+像上面那样生成一个 Query API，对测试你自己 DGS 服务非常有用。当与另一个 GraphQL 服务进行交互的时候，你的代码作为一个客户端，统一的类型 API 也同样很有用。这是使用 [DGS Client](advanced/java-client.md) 的通常用法。
 
 当你为你自己的 Schema 和一个内部的 Schema 使用代码生成器的时候，你可能想要不同的代码生成配置。建议在你的项目中，分别创建不同的模块，一个包含外部服务的 Schema，另一个仅为了生成 Query API 而包含 codegen 配置文件。以下是一个仅生成一个 Query API 的配置样例。
 

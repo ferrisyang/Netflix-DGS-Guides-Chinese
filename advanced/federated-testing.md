@@ -40,7 +40,7 @@ type Actor {
 
 `representations` 输入是一个变量Map，这个 map 包含了设置了 `Movie` 的 `__typename` 字段以及 `movieId` 为值。例如 `12345`。
 
-你现在可以通过手动创建 query 的方式设置一个 [Query Executor](https://netflix.github.io/dgs/query-execution-testing/) 来测试，或者你也可以使用 [client code generation](https://netflix.github.io/dgs/advanced/java-client/#type-safe-query-api) 提供的`Entities Query Builder API` 来生成这个联合 query。
+你现在可以通过手动创建 query 的方式设置一个 [Query Executor](../query-execution-testing.md) 来测试，或者你也可以使用 [client code generation](java-client.md/#type-safe-query-api) 提供的`Entities Query Builder API` 来生成这个联合 query。
 
 这里有一个使用手动创建 `_entities` query 的方式查询 `Movie` 的例子：
 
@@ -69,9 +69,9 @@ type Actor {
 
 ### Using the Entities Query Builder API
 
-或者，您可以使用 [EntitiesGraphQLQuery](https://netflix.github.io/dgs/advanced/java-client/#building-federated-queries) 来构建 graphql 请求，并结合 [code generation](https://netflix.github.io/dgs/generating-code-from-schema/) 插件来生成使用请求构建器所需的类，从而生成联合查询。这提供了一种方便的类型安全的方法来构建查询。
+或者，您可以使用 [EntitiesGraphQLQuery](java-client.md/#创建联合查询) 来构建 graphql 请求，并结合 [code generation](../generating-code-from-schema.md) 插件来生成使用请求构建器所需的类，从而生成联合查询。这提供了一种方便的类型安全的方法来构建查询。
 
-要设置 code generation 以生成构建查询所需的类，请遵循[这里](13-java-graphql-client.md#type-safe-query-api)的说明。
+要设置 code generation 以生成构建查询所需的类，请遵循[这里](java-client.md#type-safe-query-api)的说明。
 
 需要在 `build.gradle` 中添加 `com.netflix.graphql.dgs:graphql-dgs-client:latest.release` 依赖。
 

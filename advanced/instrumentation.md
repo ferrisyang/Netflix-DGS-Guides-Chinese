@@ -151,13 +151,13 @@ Total execution time: 3ms
 
 * 支持 vi the opt-in `graphql-dgs-spring-boot-micrometer` 模块.
 * 提供指定的 GraphQL 度量，比如 `gql.query`, `gql.error`, and `gql.dataLoader`。
-* [Micrometer](https://micrometer.io/) 提供支持，它支持很多后端。
+* 支持多个后端，因为它通过 [Micrometer](https://micrometer.io/)  实现。
 
 Gradle Groovy：
 
 ```groovy
 dependencies {
-    implementation 'com.netflix.graphql.dgs:graphql-dgs-spring-boot-micrometer:3.+'
+    implementation 'com.netflix.graphql.dgs:graphql-dgs-spring-boot-micrometer'
 }
 ```
 
@@ -165,7 +165,7 @@ Gradle Kotlin：
 
 ```kotlin
 dependencies {
-    implementation("com.netflix.graphql.dgs:graphql-dgs-spring-boot-micrometer:3.+")
+    implementation("com.netflix.graphql.dgs:graphql-dgs-spring-boot-micrometer")
 }
 ```
 
@@ -176,31 +176,36 @@ Maven：
     <dependency>
         <groupId>com.netflix.graphql.dgs</groupId>
         <artifactId>graphql-dgs-spring-boot-micrometer</artifactId>
-        <version>3.+</version>
     <dependency>
 </dependencies>
 ```
 
-> ⚠️ 警告:
+> ⚠️ 提示:
 >
-> 上面使用的版本只是一个示例。请通过访问 [Release page](https://github.com/Netflix/dgs-framework/releases) 来确认版本号。
+> 请注意，由于我们假定您使用的是最新的BOM，因此缺少该版本。我们建议您使用 [DGS Platform BOM](platform-bom.md) 来处理这些版本。
 
-### 查询计时器: gql.query
 
-捕获给定的 GraphQL 查询，或者 mutation 的耗时。
 
-**名称:** `gql.query`
+### 共享标签
 
-**Tags:**
+以下是大多数度量共享的标记。
 
-| Tag 名称 | 值 | 描述 |
-| :--- | :--- | :--- |
-| `outcome` | `success` or `failure` | 操作结果，在 [ExecutionResult](https://github.com/graphql-java/graphql-java/blob/master/src/main/java/graphql/ExecutionResult.java) 中定义. |
-| `queryComplexity` | one in \[5, 10, 20, 50, 100, 200, 500, 1000\] | 在查询中 node 的总数 |
+**标签：**
 
-queryComplexity 通常计算为 1 + childComplexity。查询复杂度对于计算查询的代价很有价值，因为它会根据查询的输入参数而变化。计算值表示为一个桶值，以减少度量的基数。
+| 标签名称               | 值                                                           | 描述                                                         |
+| :--------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- |
+| `gql.operation`        | 可能是 QUERY, MUTATION, SUBSCRIPTION。                       | 它们表示执行的GraphQL操作。                                  |
+| `gql.operation.name`   | GraphQL操作名称(如果有的话)，否则为 `anonymous`。由于该值的基数很高，它将受到[限制](#基数限制)。 |                                                              |
+| `gql.query.complexity` | [5, 10, 20, 50, 100, 200, 500, 1000] 中的一个                | 查询中的节点总数。参考 [查询复杂度部分](#查询复杂度). 寻求额外的信息。 |
+| `gql.query.sig.hash`   | 查询已执行[查询的签名哈希值](#查询的签名哈希值)。由于该值的基数很高，它将受到[限制](#基数限制)。 |                                                              |
 
-**Example Query:**
+
+
+#### 查询复杂度
+
+`gql.query.complexity` 通常计算为1 + 子复杂度。查询复杂度对于计算查询的成本很有价值，因为它会根据查询的输入参数而变化。计算值表示为一个桶值，以减少度量的基数。
+
+**样例查询：**
 
 ```scheme
 query {
@@ -226,7 +231,7 @@ query {
 }
 ```
 
-**Example Calculation:**
+**计算例子:**
 
 ```scheme
 50          = 50 repositories
@@ -235,6 +240,52 @@ query {
 
             = 550 total nodes
 ```
+
+
+
+#### 查询的签名哈希值
+
+**查询签名**被定义为GraphQL文档的 *GraphQL AST签名* 和 *GraphQL AST签名* 哈希的元组。*GraphQL文档* 的*GraphQL AST签名* 定义如下:
+
+> 一个规范化的AST将删除多余的操作、删除任何字段别名、隐藏文字值并将结果排序到规范化的查询Ref [graphql-java](https://github.com/graphql-java/graphql-java/blob/master/src/main/java/graphql/language/AstSignature.java#L35-L41) 中
+
+**GraphQL AST签名哈希** 是通过编码AST签名产生的十六进制256 SHA字符串。虽然我们不能通过指标的签名来标记它，但是由于它的长度，我们可以使用散列，就像现在 `gql.query.sig.hash` 标签所表示的那样。
+
+有一些配置参数可以改变 `gql.query.sig.hash` 标签的行为。
+
+* `management.metrics.dgs-graphql.query-signature.enabled`: 默认是 `true`，它允许计算GQL查询签名。`gql.query.sig.hash` 将表示 *GQL查询签名哈希*。
+* `management.metrics.dgs-graphql.query-signature.caching.enabled`: 默认是 `true`，它将会缓存 *GQL 查询签名* 。如果设置为false，它将禁用缓存，但不会关闭签名计算。如果您想关闭这种计算，请使用 `management.metrics.dgs-graphql.query-signature.enabled` 属性。
+
+
+
+#### 基数限制
+
+给定标记的基数，标记可以表示的不同值的数量，对于支持度量的服务器来说可能是个问题。为了防止某些现成支持的标记的基数性，默认情况下有一些限制条件。默认情况下，有限的标签值只会看到前100个不同的值，新的值将表示为 `--others--`。
+
+您可以通过以下配置更改限制器：
+
+* `management.metrics.dgs-graphql.tags.limiter.limit`: 默认是 `100`, 设置每个有限标记表示的不同值的数量。
+
+并不是所有的标签都是有限的，目前，只有以下是：
+
+- `gql.operation.name`
+- `gql.query.sig.hash`
+
+
+
+### 查询计时器: gql.query
+
+捕获给定的 GraphQL 查询，或者 mutation 的耗时。
+
+**名称:** `gql.query`
+
+**Tags:**
+
+| Tag 名称 | 值 | 描述 |
+| :--- | :--- | :--- |
+| `outcome` | `success` or `failure` | 操作结果，在 [ExecutionResult](https://github.com/graphql-java/graphql-java/blob/master/src/main/java/graphql/ExecutionResult.java) 中定义. |
+
+
 
 ### 错误计数器: gql.error
 
@@ -296,19 +347,9 @@ data fetcher，或 resolver，计时器也可以用作一个计数器。如果�
 | `DgsExecutionTagCustomizer` | 用于添加指定查询[ExecutionResult](https://github.com/graphql-java/graphql-java/blob/master/src/main/java/graphql/ExecutionResult.java)。例子： [SimpleGqlOutcomeTagCustomizer](https://github.com/Netflix/dgs-framework/blob/master/graphql-dgs-spring-boot-micrometer/src/main/kotlin/com/netflix/graphql/dgs/metrics/micrometer/tagging/SimpleGqlOutcomeTagCustomizer.kt) |
 | `DgsFieldFetchTagCustomizer` | 用于添加指定 datafetcher 执行方法。例子：[SimpleGqlOutcomeTagCustomizer](https://github.com/Netflix/dgs-framework/blob/master/graphql-dgs-spring-boot-micrometer/src/main/kotlin/com/netflix/graphql/dgs/metrics/micrometer/tagging/SimpleGqlOutcomeTagCustomizer.kt) |
 
-### 配置
+### 额外的指标配置
 
-#### management.metrics.dgs-graphql.enabled
-
-开箱即用启用度量。默认值：true
-
-#### management.metrics.dgs-graphql.tag-customizers.outcome.enabled
-
-启用自定义Tag，不论是 `success` 或 `failure`，都会随着反映 GraphQL 结果而标记于 `gql.query` 和 `gql.resolver` timers。注意与 REST 相比，在 GraphQL 中，一个 HTTP OK 并不能充分说明一个响应没有错误。评估一个响应是否成功，我们需要考虑在响应体中是否存在任何 GraphQL 错误。换句话说，即使 GraphQL 响应中有错误，你也可能会获得一个 HTTP 200 的响应。
-
-默认值：true
-
-#### management.metrics.dgs-graphql.data-loader-instrumentation.enabled
-
-开启 data loader 的仪表盘。默认值：true
+* `management.metrics.dgs-graphql.enabled` ：开箱即用启用度量。默认值：`true`
+* `management.metrics.dgs-graphql.tag-customizers.outcome.enabled` ：启用标记自定义器，该自定义器将用一个 `outcome` 来标记 `gql.query` 和 `gql.resolver` 计时器，该 `outcome` 反映 GraphQL结果的结果（`success` 或  `failure`）；默认值是 `true`。
+* `management.metrics.dgs-graphql.data-loader-instrumentation.enabled` ：启用数据加载器的插装；默认值是 `true`。
 

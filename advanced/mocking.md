@@ -20,7 +20,7 @@ Mock 框架已经是 DGS 框架的一部分。您所需要提供的只是一个�
 
 ### Example
 
-创建一个 `MockProvider` ，为你在 [getting started tutorial](../01-getting-started.md) 中创建的 `hello` 字段提供 Mock 数据。
+创建一个 `MockProvider` ，为你在 [getting started tutorial](../getting-started.md) 中创建的 `hello` 字段提供 Mock 数据。
 
 ```java
 @Component

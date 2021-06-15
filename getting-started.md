@@ -2,7 +2,7 @@
 
 ## 创建一个新的 Spring Boot 应用
 
-DGS 框架建立在 Spring Boot 之上，所以如果你没有一个 Spring Boot 应用的话，需要创建一个新的来开始。Spring Initializr 是一个简单的开始方式。你可以利用 Gradle 或者 Maven，Java 8 版本以上或者Kotlin。我们建议使用 Gradle，因为我们在Gradle上已经有了一个很酷的 [code generation plugin](06-code-generation.md)。
+DGS 框架建立在 Spring Boot 之上，所以如果你没有一个 Spring Boot 应用的话，需要创建一个新的来开始。Spring Initializr 是一个简单的开始方式。你可以利用 Gradle 或者 Maven，Java 8 版本以上或者Kotlin。我们建议使用 Gradle，因为我们在Gradle上已经有了一个很酷的 [code generation plugin](generating-code-from-schema.md)。
 
 只依赖 Spring Web。
 
@@ -14,7 +14,9 @@ DGS 框架建立在 Spring Boot 之上，所以如果你没有一个 Spring Boot
 
 ## 添加 DGS 框架依赖
 
-在你的 Gradle 或者 Maven 配置文件中，添加 `com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter` 依赖，dgs 版本：
+将平台依赖项添加到Gradle或Maven配置中。`com.netflix.graphql.dgs:graphql-dgs-platform-dependencies` 是一个 [platform/BOM dependency](advanced/platform-bom.md) 的依赖，它将各个模块的版本和框架的传递依赖对齐。
+
+`com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter` 是一个 Spring Boot Starter，它包含了开始构建DGS所需的一切。如果你在 `WebFlux` 的基础上构建，使用 `com.netflix.graphql.dgs:graphql-dgs-webflux-starter` 代替。
 
 Gradle：
 
@@ -24,7 +26,8 @@ repositories {
 }
 
 dependencies {
-    implementation "com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter:latest.release"
+    implementation(platform("com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:latest.release"))
+    implementation "com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter"
 }
 ```
 
@@ -36,19 +39,44 @@ repositories {
 }
 
 dependencies {
-    implementation("com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter:latest.release")
+    implementation(platform("com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:latest.release"))
+    implementation("com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter")
 }
 ```
 
 Maven：
 
 ```markup
-<dependency>
-    <groupId>com.netflix.graphql.dgs</groupId>
-    <artifactId>graphql-dgs-spring-boot-starter</artifactId>
-    <!-- Make sure to set the latest framework version! -->
-    <version>${dgs.framework.version}</version>
-</dependency>
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>com.netflix.graphql.dgs</groupId>
+            <artifactId>graphql-dgs-platform-dependencies</artifactId>
+            <!-- The DGS BOM/platform dependency. This is the only place you set version of DGS -->
+            <version>4.1.0</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+
+    <dependency>
+        <groupId>com.netflix.graphql.dgs</groupId>
+        <artifactId>graphql-dgs-spring-boot-starter</artifactId>
+    </dependency>
+
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-test</artifactId>
+        <scope>test</scope>
+    </dependency>
+</dependencies>
 ```
 
 
@@ -92,7 +120,7 @@ type Show {
 
 ## 实现一个 Data Fetcher
 
-Data fetcher 负责返回一个查询的数据。创建两个新的 class `example.ShowsDataFetcher` 和 `Show` 以及添加下面的代码。注意，我们有一个 [Codegen plugin](06-code-generation.md) 可以自动生成代码，但是在本指导里，我们手写这些 class。
+Data fetcher 负责返回一个查询的数据。创建两个新的 class `example.ShowsDataFetcher` 和 `Show` 以及添加下面的代码。注意，我们有一个 [Codegen plugin](generating-code-from-schema.md) 可以自动生成代码，但是在本指导里，我们手写这些 class。
 
 Java：
 
@@ -185,9 +213,9 @@ GraphiQL 编辑器只是个图形界面，在你的应用服务中使用 `/graph
 
 现在你已经运行了第一个 GraphQL 服务，我们建议通过以下的步骤来在后面进行改进:
 
-* 使用 [Use the DGS Platform BOM](advanced/10-using-the-platform-bom.md)，组织 DGS 框架的依赖。
-* 学习更多的 [datafetchers](03-data-fetching.md)
-* 使用 [Gradle CodeGen plugin](06-code-generation.md)，为你自动生成数据类型。
-* 在 JUnit 中写 [query tests](04-testing.md)
-* 查看 [example projects](https://netflix.github.io/dgs/examples)
+* 使用 [Use the DGS Platform BOM](advanced/platform-bom.md)，组织 DGS 框架的依赖。
+* 学习更多的 [datafetchers](datafetching.md)
+* 使用 [Gradle CodeGen plugin](generating-code-from-schema.md)，为你自动生成数据类型。
+* 在 JUnit 中写 [query tests](query-execution-testing.md)
+* 查看 [example projects](examples.md)
 

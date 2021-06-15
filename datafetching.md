@@ -1,6 +1,6 @@
 # Data fetching
 
-在 [getting started guide](01-getting-started.md)，我们介绍了如何使用 `@DgsData` 注解来创建一个 data fetcher。在本章节中，我们看一下关于 datafercher 的细节。
+在 [getting started guide](getting-started.md)，我们介绍了如何使用 `@DgsData` 注解来创建一个 data fetcher。在本章节中，我们看一下关于 datafercher 的细节。
 
 ## @DgsData, @DgsQuery, @DgsMutation 和 @DgsSubscription 注解
 
@@ -95,9 +95,9 @@ public List<Actor> actors(DgsDataFetchingEnvironment dfe) {
 
 这个 `actors` 的 datafetcher 仅仅在查询中包含了这个字段时获得执行。这个 `actors` datafetcher 也介绍了一个新的概念 -- `DgsDataFetchingEnvironment`。`DgsDataFetchingEnvironment` 提供了一个访问 `context`，查询本身，data loaders，和 `source` 对象的方式。其中 `source` 对象包括了这个字段。例如：当前这个 `source` 就是一个 `Show` 对象，你可以利用 show 的 identifier 来进行 actors 的查询。
 
-值得注意的是 `shows` datafetcher 返回了 `Show` 列表，然而 `actors` datafetcher 仅仅是给单个的 show 返回 actors。 框架将会为了每个 `Show` 去执行 `actors` datafetcher 的查询。如果说这个 `actors` 的查询是来自于一个数据库，那这将会引发 N+1 的问题。为了解决 N+1 的问题，你需要用 [data loaders](07-async-data-fetching.md)。
+值得注意的是 `shows` datafetcher 返回了 `Show` 列表，然而 `actors` datafetcher 仅仅是给单个的 show 返回 actors。 框架将会为了每个 `Show` 去执行 `actors` datafetcher 的查询。如果说这个 `actors` 的查询是来自于一个数据库，那这将会引发 N+1 的问题。为了解决 N+1 的问题，你需要用 [data loaders](data-loaders.md)。
 
-注：嵌套 datafetcher 和在两个关联的 datafetcher 之间传输 context，有更复杂的情形。请参考更高阶的用法 -- [nested datafetchers guide](advanced/11-nested-data-fetchers.md)。
+注：嵌套 datafetcher 和在两个关联的 datafetcher 之间传输 context，有更复杂的情形。请参考更高阶的用法 -- [nested datafetchers guide](advanced/context-passing.md)。
 
 ## 使用 @InputArgument
 
@@ -180,7 +180,7 @@ public List<Show> shows(@InputArgument(collectionType = ShowFilter.class) Option
 
 ## 代码生成器常量
 
-直到当前 `@DgsData` 的例子为止，我们在参数 `parentType` 和 `field` 填写的都是 string 类型的值。如果你用了 [code generation](06-code-generation.md) ，那么你可以用生成的常量来替换。代码生成器将会创建一个名为 `DgsConstants` 的 Class，在这个 class 中将会有每个定义在 Schema 中的数据类型以及字段的常量定义。使用这样的常量，我们可以将一个 datafetcher 写成如下样子：
+直到当前 `@DgsData` 的例子为止，我们在参数 `parentType` 和 `field` 填写的都是 string 类型的值。如果你用了 [code generation](generating-code-from-schema.md) ，那么你可以用生成的常量来替换。代码生成器将会创建一个名为 `DgsConstants` 的 Class，在这个 class 中将会有每个定义在 Schema 中的数据类型以及字段的常量定义。使用这样的常量，我们可以将一个 datafetcher 写成如下样子：
 
 ```scheme
 type Query {

@@ -50,7 +50,7 @@ scalar DateTime
 
 DGS 框架，从版本 3.9.2 开始，有 `graphql-dgs-extended-scalars` 模块。此模块提供 _auto-configuration_，它可以将定义在 `com.graphql-java:graphql-java-extended-scalars` 中的 scalar extension 自动注册。使用它你可以：
 
-1. 在你的 build 中添加 `com.netflix.graphql.dgs:graphql-dgs-extended-scalars` 依赖。如果你使用的是 [DGS BOM](10-using-the-platform-bom.md)，你不需要为它指定一个版本，BOM会推荐一个。
+1. 在你的 build 中添加 `com.netflix.graphql.dgs:graphql-dgs-extended-scalars` 依赖。如果你使用的是 [DGS BOM](platform-bom.md)，你不需要为它指定一个版本，BOM会推荐一个。
 2. 在你的 schema 定义 scalar
 
    [extended scalars doc](https://github.com/graphql-java/graphql-java-extended-scalars) 上可用的其他映射
@@ -67,7 +67,7 @@ DGS 框架，从版本 3.9.2 开始，有 `graphql-dgs-extended-scalars` 模块�
 
 > 重要
 >
-> 你是否正在使用 [code generation Gradle Plugin](../06-code-generation.md) ？
+> 你是否正在使用 [code generation Gradle Plugin](../generating-code-from-schema.md) ？
 >
 > `graphql-java-extended-scalar` 模块不会修改此类插件的行为。您需要显式定义 _type mappings_。例如，假设我们想同时使用 `Url` 和 `PositiveInt` Scalars。您必须将下面的映射添加到构建文件中。
 >
@@ -97,7 +97,7 @@ DGS 框架，从版本 3.9.2 开始，有 `graphql-dgs-extended-scalars` 模块�
 
 你也可以手动注册 Scalar Extensions。你需要：
 
-1. 在你的 build 中添加 `com.graphql-java:graphql-java-extended-scalars` 依赖。如果你使用的是 [DGS BOM](10-using-the-platform-bom.md)，你不需要为它指定一个版本，BOM会推荐一个。
+1. 在你的 build 中添加 `com.graphql-java:graphql-java-extended-scalars` 依赖。如果你使用的是 [DGS BOM](platform-bom.md)，你不需要为它指定一个版本，BOM会推荐一个。
 2. 在你的 schema 定义 scalar
 3. 注册 scalar
 

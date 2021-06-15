@@ -94,7 +94,7 @@ GraphQL 的说明提供了一个错误结构的迷你指导。它只有一个必
 | `message`\(non-nullable\) | `String!` | 描述一个错误的字符串，为开发者提供一个可以理解的错误 |  |
 | `locations` | `[Location]` | 代码定位数组，每个定位将会是 Key 为 `line` 和 `column` 的 `Map` , 从1开始可以描述关联元素的自然数。 |  |
 | `path` | \`\[String | Int\]\` | 如果错误是关联了一个或者多个在响应中的字段时，这个字段将会在响应中描述错误字段的路径（可以让客户端找到是否有一个真的 `null` 结果还是因为运行时异常才为 `null` ） |
-| `extensions` | `[TypedError]` | [查看下面的 “The TypedError Interface”](08-error-handling.md#TypedError%20接口) |  |
+| `extensions` | `[TypedError]` | [查看下面的 “The TypedError Interface”](#TypedError%20接口) |  |
 
 ```kotlin
 """
