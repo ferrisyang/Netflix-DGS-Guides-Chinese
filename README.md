@@ -1,6 +1,6 @@
 # Netflix DGS 框架官方指南中文翻译版本
 
-Update Date: 2021-06-22
+Update Date: 2021-07-05
 
 
 在线版本：
